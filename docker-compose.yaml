@@ -107,7 +107,7 @@ services:
   #######################################
   konga-database:
     container_name: konga_database
-    image: pantsel/konga:0.14.9
+    image: pantsel/konga:latest
     command: "-c prepare -a postgres -u postgresql://kong:${KONG_PG_PASSWORD:-kong}@kong-database:5432/konga"
     networks:
       - kong-net
@@ -121,7 +121,7 @@ services:
   #######################################
   konga:
     container_name: konga
-    image: pantsel/konga:0.14.9
+    image: pantsel/konga:latest
     networks:
       - kong-net
     restart: always
