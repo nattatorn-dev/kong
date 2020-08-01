@@ -35,6 +35,7 @@ echo "Kong admin running http://127.0.0.1:8001/"
 
 echo "Starting konga"
 
+docker-compose up konga-database
 docker-compose up konga
 
 echo "Konga running http://127.0.0.1:1337/"

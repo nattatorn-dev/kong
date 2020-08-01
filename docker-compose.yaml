@@ -122,14 +122,16 @@ services:
   konga:
     container_name: konga
     image: pantsel/konga:0.14.9
-    restart: always
     networks:
       - kong-net
+    restart: always
     environment:
       DB_ADAPTER: mongo
       DB_HOST: mongo
       NODE_ENV: production
     depends_on:
+      - konga-database
+    links:
       - konga-database
     ports:
       - "127.0.0.1:1337:1337"
