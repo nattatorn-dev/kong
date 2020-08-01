@@ -65,28 +65,31 @@ services:
     user: root
     restart: always
     environment:
-      - KONG_DATABASE=postgres # database engine
-      - KONG_PG_HOST=kong-database
-      - KONG_PROXY_LISTEN=0.0.0.0:80, 0.0.0.0:443 ssl http2
-      - KONG_ADMIN_LISTEN=0.0.0.0:8001
-      - KONG_NGINX_HTTP_RESOLVER=8.8.8.8
-      - KONG_NGINX_PROXY_LUA_SSL_TRUSTED_CERTIFICATE=/etc/ssl/certs/ca-certificates.crt
+      KONG_DATABASE: postgres # database engine
+      KONG_PG_HOST: kong-database
+      KONG_PG_DATABASE: kong
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
+      KONG_PROXY_LISTEN: 0.0.0.0:80, 0.0.0.0:443 ssl http2
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_NGINX_HTTP_RESOLVER: 8.8.8.8
+      KONG_NGINX_PROXY_LUA_SSL_TRUSTED_CERTIFICATE: /etc/ssl/certs/ca-certificates.crt
 
     # ERROR_LOG
-      - KONG_PROXY_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
     # ACCESS_LOG
-      - KONG_PROXY_ACCESS_LOG=/dev/null # disable access log improve little speed and don't save file on storage
-      - KONG_ADMIN_ACCESS_LOG=/dev/null # disable access log
+      KONG_PROXY_ACCESS_LOG: /dev/null # disable access log improve little speed and don't save file on storage
+      KONG_ADMIN_ACCESS_LOG: /dev/null # disable access log
 
-      - KONG_TRUSTED_IPS=0.0.0.0/0,::/0 # Real IP, X-Real-IP
-      - KONG_REAL_IP_RECURSIVE=on # Real IP, X-Real-IP
+      KONG_TRUSTED_IPS: 0.0.0.0/0,::/0 # Real IP, X-Real-IP
+      KONG_REAL_IP_RECURSIVE: on # Real IP, X-Real-IP
     # PLUGINS
-      - KONG_PLUGINS=bundled,hello
+      KONG_PLUGINS: bundled,hello
     # lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
-      - KONG_LUA_PACKAGE_PATH=/etc/kong/plugins/hello/?.lua;;
+      KONG_LUA_PACKAGE_PATH: /etc/kong/plugins/hello/?.lua;;
 
-      - KONG_LOG_LEVEL=debug # check PLUGINS load fail or success
+      KONG_LOG_LEVEL: debug # check PLUGINS load fail or success
     volumes:
       - ./plugins/hello:/etc/kong/plugins/hello
     ports:
