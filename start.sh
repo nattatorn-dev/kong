@@ -27,7 +27,7 @@ KONG_STATUS="starting"
 while [ "$KONG_STATUS" != "healthy" ]
 do
     KONG_STATUS=$(docker inspect --format {{.State.Health.Status}} kong)
-    echo "kong-database state = $KONG_STATUS"
+    echo "kong state = $KONG_STATUS"
     sleep 5
 done
 
