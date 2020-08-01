@@ -127,7 +127,7 @@ services:
     restart: always
     environment:
       DB_ADAPTER: mongo
-      DB_HOST: mongo
+      DB_HOST: konga-database
       NODE_ENV: production
     depends_on:
       - konga-database
