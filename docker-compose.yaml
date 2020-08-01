@@ -33,13 +33,13 @@ services:
   #######################################
   kong-migration:
     container_name: kong-migration
-    image: kong:2.0.3 # specific stable version
+    image: kong:2.0 # specific stable version
     depends_on:
       - kong-database
     links:
       - kong-database
     environment:
-      - KONG_DATABASE=postgres
+      - KONG_DATABASE=kong
       - KONG_PG_HOST=kong-database
       - KONG_PG_DATABASE=kong
       - KONG_PG_USER=kong
@@ -54,7 +54,7 @@ services:
   #######################################
   kong:
     container_name: kong
-    image: kong:2.0.3 # specific stable version
+    image: kong:2.0 # specific stable version
     networks:
       - kong-net
     depends_on:
