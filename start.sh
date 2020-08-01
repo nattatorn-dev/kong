@@ -37,13 +37,5 @@ echo "Starting konga"
 
 docker-compose up -d konga
 
-KONGA_STATUS="starting"
-while [ "$KONGA_STATUS" != "healthy" ]
-do
-    KONGA_STATUS=$(docker inspect --format {{.State.Health.Status}} kong)
-    echo "kong state = $KONGA_STATUS"
-    sleep 5
-done
-
 echo "Konga running http://127.0.0.1:1337/"
 
