@@ -22,5 +22,19 @@ echo "Starting kong..."
 
 docker-compose up -d kong
 
+KONG_STATUS="starting"
+
+while [ "$KONG_STATUS" != "healthy" ]
+do
+    KONG_STATUS=$(docker inspect --format {{.State.Health.Status}} kong)
+    echo "kong-database state = $KONG_STATUS"
+    sleep 5
+done
+
 echo "Kong admin running http://127.0.0.1:8001/"
 
+echo "Starting konga"
+
+docker-compose up konga
+
+echo "Konga running http://127.0.0.1:1337/"
