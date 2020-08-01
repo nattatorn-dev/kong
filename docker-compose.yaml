@@ -135,6 +135,6 @@ services:
       DB_DATABASE: konga
       NODE_ENV: production
     depends_on:
-      - kong-database
+      - konga-database
     ports:
       - "127.0.0.1:1337:1337"
