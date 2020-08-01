@@ -116,7 +116,6 @@ services:
       - kong-database
     links:
       - kong-database
-  
 
   #######################################
   # Konga: Kong GUI
