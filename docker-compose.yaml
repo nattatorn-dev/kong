@@ -41,7 +41,7 @@ services:
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
-    command: kong migrations bootstrap -v
+    command: ["./wait-for-postgres.sh", "kong migrations bootstrap -v"]
   # for upgrade
     # command: kong migrations up -v
     # command: kong migrations finish -v
