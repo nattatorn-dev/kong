@@ -32,7 +32,7 @@ services:
   # Kong database migration
   #######################################
   kong-migration:
-    container_name: kong-migrations
+    container_name: kong-migration
     image: kong:2.0.3 # specific stable version
     depends_on:
       - kong-database
