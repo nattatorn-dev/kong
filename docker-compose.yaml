@@ -128,7 +128,7 @@ services:
     environment:
       DB_ADAPTER: mongo
       DB_HOST: konga-database
-      NODE_ENV: production
+      NODE_ENV: production # disable info log
     depends_on:
       - konga-database
     links:
