@@ -1,0 +1,116 @@
+version: '3.7'
+
+services:
+  kong-database:
+    image: postgres:9.6
+    container_name: kong-database
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    depends_on:
+      - kong-database
+    image: kong:latest
+    container_name: kong-migrations
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+    command: kong migrations bootstrap -v
+# for upgrade
+    # command: kong migrations up -v
+    # command: kong migrations finish -v
+
+  kong:
+    depends_on:
+      - kong-database
+    image: kong:2.0.3 # specific stable version
+    user: root
+    container_name: kong
+    restart: always
+    environment:
+      - KONG_DATABASE=postgres # database engine
+      - KONG_PG_HOST=kong-database
+      - KONG_PROXY_LISTEN=0.0.0.0:80, 0.0.0.0:443 ssl http2
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+      - KONG_NGINX_HTTP_RESOLVER=8.8.8.8
+      - KONG_NGINX_PROXY_LUA_SSL_TRUSTED_CERTIFICATE=/etc/ssl/certs/ca-certificates.crt
+
+# ERROR_LOG
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+# ACCESS_LOG
+      - KONG_PROXY_ACCESS_LOG=/dev/null # disable access log
+      - KONG_ADMIN_ACCESS_LOG=/dev/null # disable access log
+
+      - KONG_TRUSTED_IPS=0.0.0.0/0,::/0 # Real IP, X-Real-IP
+      - KONG_REAL_IP_RECURSIVE=on # Real IP, X-Real-IP
+# PLUGINS
+      - KONG_PLUGINS=bundled,hello
+      - KONG_LUA_PACKAGE_PATH=/etc/kong/plugins/hello/?.lua;;
+      - KONG_LOG_LEVEL=debug
+    volumes:
+        - ./plugins/hello:/etc/kong/plugins/hello
+    ports:
+      - "80:80"
+      - "443:443"
+      - "127.0.0.1:8001:8001"
+
+  mongo:
+    image: mongo
+    restart: always
+    container_name: konga_mongo
+    volumes:
+      - ./mongo_data:/data/db
+
+  konga:
+    image: pantsel/konga
+    container_name: konga
+    restart: always
+    environment:
+      DB_ADAPTER: mongo
+      DB_HOST: mongo
+    depends_on:
+      - mongo
+    ports:
+      - "127.0.0.1:1337:1337"
+
+
+# for test service, route
+  nginx-1:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:18001:80"
+  nginx-2:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:18002:80"
+  nginx-3:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:18003:80"
+  nginx-4:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:18004:80"
+  nginx-5:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:18005:80"
+  httpbin-1:
+    image: kennethreitz/httpbin:latest
+    ports:
+      - "127.0.0.1:19001:80"
+  httpbin-2:
+    image: kennethreitz/httpbin:latest
+    ports:
+      - "127.0.0.1:19002:80"
