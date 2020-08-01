@@ -135,3 +135,8 @@ services:
       - konga-database
     ports:
       - "127.0.0.1:1337:1337"
+    healthcheck:
+      test: ["CMD", "wget", "-O-", "http://127.0.0.1:1337/"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
