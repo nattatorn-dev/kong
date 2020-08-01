@@ -34,6 +34,8 @@ services:
   kong-migration:
     container_name: kong-migration
     image: kong:2.0 # specific stable version
+    networks:
+      - kong-net
     depends_on:
       - kong-database
     links:
