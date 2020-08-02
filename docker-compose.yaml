@@ -135,6 +135,10 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+    environment:
+      MONGO_INITDB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
+      MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_USER:-konga}
+      MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_PASSWORD:-konga}
     depends_on:
       - kong
     ports:
@@ -157,9 +161,9 @@ services:
     environment:
       DB_ADAPTER: mongo
       DB_HOST: konga-database
-      DB_DATABASE: konga
-      DB_USER: ${KONG_PG_USER:-kong}
-      DB_PASSWORD: ${KONG_PG_PASSWORD:-kong}
+      DB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
+      DB_USER: ${KONG_MONGO_USER:-konga}
+      DB_PASSWORD: ${KONG_MONGO_PASSWORD:-konga}
       TOKEN_SECRET: km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
       NODE_ENV: production
     depends_on:
