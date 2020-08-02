@@ -156,7 +156,7 @@ services:
         condition: always
     environment:
       DB_ADAPTER: mongo
-      DB_HOST: kong-database
+      DB_HOST: konga-database
       DB_DATABASE: konga
       DB_USER: ${KONG_PG_USER:-kong}
       DB_PASSWORD: ${KONG_PG_PASSWORD:-kong}
