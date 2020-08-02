@@ -136,11 +136,11 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      MONGO_INITDB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
-      MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_USER:-root}
-      MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_PASSWORD:-root}
-      MONGO_INITDB_USERNAME: ${KONG_MONGO_USER:-konga}
-      MONGO_INITDB_PASSWORD_FILE: /run/secrets/konga_mongo_password
+      # MONGO_INITDB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
+      MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_ROOT_USER:-konga}
+      MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_ROOT_PASSWORD:-konga}
+      # MONGO_INITDB_USERNAME: ${KONG_MONGO_USER:-konga}
+      # MONGO_INITDB_PASSWORD_FILE: /run/secrets/konga_mongo_password
     secrets:
       - konga_mongo_password
     depends_on:
@@ -165,9 +165,9 @@ services:
     environment:
       DB_ADAPTER: mongo
       DB_HOST: konga-database
-      DB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
-      DB_USER: ${KONG_MONGO_USER:-konga}
-      DB_PASSWORD: ${KONG_MONGO_PASSWORD:-konga}
+      # DB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
+      DB_USER: ${KONG_MONGO_ROOT_USER:-konga}
+      DB_PASSWORD: ${KONG_MONGO_ROOT_USER:-konga}
       TOKEN_SECRET: km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
       NODE_ENV: production
     depends_on:
