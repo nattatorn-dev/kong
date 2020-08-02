@@ -137,8 +137,12 @@ services:
         condition: on-failure
     environment:
       MONGO_INITDB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
-      MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_USER:-konga}
-      MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_PASSWORD:-konga}
+      MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_USER:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_PASSWORD:-root}
+      MONGO_INITDB_USERNAME: ${KONG_MONGO_USER:-konga}
+      MONGO_INITDB_PASSWORD_FILE: /run/secrets/konga_mongo_password
+    secrets:
+      - konga_mongo_password
     depends_on:
       - kong
     ports:
@@ -174,3 +178,6 @@ services:
 secrets:
   kong_postgres_password:
     file: ./POSTGRES_PASSWORD
+  konga_mongo_password:
+    file: ./MONGO_PASSWORD
+  
