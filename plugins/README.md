@@ -1,12 +1,13 @@
-# Initial Plugin directory
 
+# Implement lua
+
+## Install
+```bash
+$ sudo apt-get install -y lua
+$ sudo apt-get install -y luarocks
 ```
-mkdir -p hello/kong/plugins/hello
-touch hello/kong/plugins/hello/{handler,schema}.lua
-cd hello/
-luarocks write_rockspec
+
+## Build
+```bash
+$ luarocks make
 ```
-
-
-sudo apt-get install -y lua
-sudo apt-get install -y luarocks
