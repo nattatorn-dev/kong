@@ -139,8 +139,8 @@ services:
       # MONGO_INITDB_DATABASE: ${KONG_MONGO_DATABASE:-konga}
       MONGO_INITDB_ROOT_USERNAME: ${KONG_MONGO_ROOT_USER:-konga}
       MONGO_INITDB_ROOT_PASSWORD: ${KONG_MONGO_ROOT_PASSWORD:-konga}
-      # MONGO_INITDB_USERNAME: ${KONG_MONGO_USER:-konga}
-      # MONGO_INITDB_PASSWORD_FILE: /run/secrets/konga_mongo_password
+      MONGO_INITDB_USERNAME: ${KONG_MONGO_USER:-konga}
+      MONGO_INITDB_PASSWORD_FILE: /run/secrets/konga_mongo_password
     secrets:
       - konga_mongo_password
     depends_on:
