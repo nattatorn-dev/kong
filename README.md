@@ -1,2 +1,18 @@
-# ref URL
-https://app.gitbook.com/@nattatorn-dev/s/kong/kong-production#kong-config
+# Install
+We have 2 solutions.
+
+### 1 
+```
+$ docker-compose up -d
+```
+
+### 2 Run Sequence
+```
+$ ./start.sh
+```
+
+# Uninstall
+
+```
+$ docker-compose down
+```

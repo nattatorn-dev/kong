@@ -16,7 +16,7 @@ done
 
 echo "Run database migrations..."
 
-docker-compose up kong-migration
+docker-compose up kong-migrations
 
 echo "Starting kong..."
 
